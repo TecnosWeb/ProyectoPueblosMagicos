@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import modelo.pojos.PropiedadesConexion;
 import modelo.pojos.PuebloBean;
 
@@ -55,7 +56,40 @@ public class PuebloDao {
 		return aux;
 		
 	}
-	
+	public PuebloBean [] getAllPueblos(){
+		PuebloBean []aux=null;
+
+		String query="SELECT * FROM pueblos";
+		System.out.println(query);
+		try {
+			Statement consulta = this.conDao.createStatement();
+			int rowcount = 0;
+			
+			ResultSet r = consulta.executeQuery(query);
+			if (r.last()) {
+			  rowcount = r.getRow();
+			  r.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+			}
+			if(r!=null)
+			{	
+				aux=new PuebloBean[rowcount];
+				int i=0;
+				while(r.next()){	
+					aux[i].setNombrePueblo(r.getString(2));
+					aux[i].setEstado(r.getString(3));
+					aux[i].setLatitude(r.getLong(4));
+					aux[i++].setLongitude(r.getLong(5));
+				}
+			}
+		}catch (SQLException e) {
+			e.getMessage();
+			System.out.println(e);
+			e.printStackTrace();
+			System.out.println("algo va mal en la consulta");
+		}
+		return aux;
+		
+	}
 	public static void main(String args[])
 	{
 		ConexionBD cbd= new ConexionBD();
@@ -67,8 +101,5 @@ public class PuebloDao {
 		PuebloBean p= pdao.consultarPueblo("Comala");
 		String rr= p.getNombrePueblo();
 		System.out.println(rr);
-		
-		/*int rr = odao.GuardarOperacion(r);
-		*/
 	}
 }
