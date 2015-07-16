@@ -18,7 +18,7 @@ public class CargarPropiedades {
 			pc.setUrl(prop.getProperty("url"));
 			pc.setUser(prop.getProperty("user"));
 			pc.setPass(prop.getProperty("pass"));
-			pc.print();
+			//pc.print();
 		} catch ( IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

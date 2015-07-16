@@ -1,9 +1,9 @@
 package modelo.dao;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Connection;
 import java.sql.Statement;
 
 public class ConexionBD {
@@ -26,23 +26,20 @@ public ResultSet select(String query) throws SQLException{
 }
 public String conectar(String url, String user, String pass){
 		
-		String conectar = "Correcto";
+		String conectar = "Mensaje de conexion: ";
 		try {	
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con = DriverManager.getConnection(url, user, pass);
-			System.out.println("Conexion establecida!");
+			//System.out.println("Conexion establecida!");
+			conectar+="listo";
+		
 			return conectar;
 			//bajar el objeto de la sesion, verificar si es nulo se crea la sesion, si no, lo creamos para validar una sola vez la conexion 
 			//a la base de datos
 				
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			conectar = e.getMessage();
-			return conectar;
-		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			conectar = e.getMessage();
+		} catch (ClassNotFoundException|SQLException e) {
+			e.printStackTrace();
+			conectar+= e.getMessage();
 			return conectar;
 		}
 	}	
