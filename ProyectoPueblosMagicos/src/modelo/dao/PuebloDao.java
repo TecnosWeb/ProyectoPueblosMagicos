@@ -46,6 +46,7 @@ public class PuebloDao {
 				aux.setEstado(r.getString(3));
 				aux.setLatitude(r.getDouble(4));
 				aux.setLongitude(r.getDouble(5));
+				aux.setUrlDescripcion(r.getString(6));
 				}
 			} 
 			catch (SQLException e) {
@@ -82,7 +83,7 @@ public class PuebloDao {
 					aux[i].setNombrePueblo(r.getString(2));
 					aux[i].setEstado(r.getString(3));
 					aux[i].setLatitude(r.getDouble(4));
-			//		System.out.println(aux[i].getNombrePueblo());
+					aux[i].setUrlDescripcion(r.getString(6));
 					aux[i++].setLongitude(r.getDouble(5));
 					}
 				} 
@@ -119,6 +120,7 @@ public class PuebloDao {
 					aux[i].setNombrePueblo(r.getString(2));
 					aux[i].setEstado(r.getString(3));
 					aux[i].setLatitude(r.getDouble(4));
+					aux[i].setUrlDescripcion(r.getString(6));
 					aux[i++].setLongitude(r.getDouble(5));
 					}
 			}
@@ -143,7 +145,7 @@ public class PuebloDao {
 	public String cargarEstados(){
 		String result="";
 		String query="SELECT distinct estado FROM pueblos ORDER BY estado";
-		//System.out.println(query);
+		System.out.println(query);
 		try {
 			
 			Statement consulta = this.conDao.createStatement();

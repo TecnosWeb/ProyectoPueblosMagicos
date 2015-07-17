@@ -39,10 +39,6 @@ public class CoordenadaDAO {
 		PuebloBean[] result=new PuebloBean[pueblosAux.length];
 		for(int i=0;i<pueblosAux.length;i++){
 			result[i]=pDao.consultarPueblo(pueblosAux[i]);
-			System.out.println(i+result[i].getNombrePueblo());
-			System.out.println(result[i].getLatitude());
-			System.out.println(result[i].getLongitude());
-			
 		}
 		return result;
 	}

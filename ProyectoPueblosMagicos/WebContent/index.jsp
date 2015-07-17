@@ -40,7 +40,7 @@ console.log(y);
 	        data: { message : mge  },
 		    success : function(data){
 	            limpiaL2();
-	            $("#lista2").append(data);	            
+	            $("#lista2").append(data);
 	        }
 	      });
 	  //FIN DE FUNCION AJAX-JQUERY
@@ -55,7 +55,26 @@ console.log(y);
 	function limpiaL2() {
 		$("#lista2 option").remove();
 	};
-
+	function obtenerPueblo(){
+		var selected=$("#lista2 option:selected").text();
+		var lat=$("#latitude").val();
+		var lng=$("#longitude").val();
+		
+	       
+		$.ajax({
+	        type: "get",
+	        url: "DatosServlet", 
+	        data: { message : selected, latitude:lat, longitude:lng  },
+		    success : function(data){
+	            //limpiaL2();
+	            console.log("ajax correcto en obtenerPueblo");
+	            location.href = "map.jsp";
+	            //$("#lista2").append(data);
+	        }
+	      });
+       
+		
+	}
 	function getLocation() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(showPosition);
@@ -106,7 +125,7 @@ console.log(y);
 			<div id="conSelect" class="redondos">
 				<form onsubmit='return false;' id="formMultiSelects">
 					<select id="lista" name="lista" onchange="cargarLista2()"></select> 
-					<select id="lista2" name="lista2"></select>
+					<select id="lista2" name="lista2" onchange="obtenerPueblo()"></select>
 					</form>
 				</div>
 				<form action="index.jsp" method = "post">

@@ -6,13 +6,19 @@
 	javax.servlet.http.HttpServletRequest'
 	%>
 	<%!String pueblos;
+	String urls;
 	CoordenadaBean cb;
+	PuebloDao pdao=new PuebloDao();
+	ConexionBD cbd;
 	%>
 	<%
 	HttpSession s = request.getSession();
+	cbd=(ConexionBD)s.getAttribute("conexionBD");
 	pueblos= (String)s.getAttribute("markers");
-	cb=(CoordenadaBean)s.getAttribute("coord");	
+	urls= (String)s.getAttribute("urls");
 	
+	cb=(CoordenadaBean)s.getAttribute("coord");	
+	pdao.setConDao(cbd.getCon());
 	%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,12 +33,17 @@
 </head>
 
 
-<body >
+<body>
+<div class="container" style="width: 100%;height: 100%;position: absolute;clear: both;">
+	<div id="map" style="width: 60%;height: 100%;position: absolute;float: left;display: block;"></div>
+	<div id="infoPueblo" style="width: 40%;height: 100%;position: absolute;display: block;float: right; left: 60%"></div>
+</div>
 
-<div id="map" style="width: 80%;height: 80%;position: absolute;"></div>
 <script type="text/javascript">
 		var str = "<%=pueblos%>";
-		console.log(str);
+		var str2="<%=urls%>"
+		//console.log(str);
+		var urls= str2.split("|");
 		var locationArray = str.split("|");
 		var locations= new Array(locationArray.length-1);
 		var j;
@@ -42,7 +53,7 @@
 		}
 		
 		var map = new google.maps.Map(document.getElementById('map'), {
-			zoom : 10,
+			zoom : 8,
 			center : new google.maps.LatLng(<%=cb.getLatitude()%>,<%=cb.getLongitude()%>),
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 	    });
@@ -66,10 +77,7 @@
         	shadow: pinShadow
 	      });
 	    for (i = 0; i < locations.length; i++) { 
-			console.log(locations[i][1]);
-//			console.log(locations[i][2]);
-	//		console.log(locations[i][0]);
-		      marker = new google.maps.Marker({
+		    marker = new google.maps.Marker({
 	        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
 	        map: map
 	      });
@@ -78,6 +86,7 @@
 	        return function() {
 	          infowindow.setContent(locations[i][0]);
 	          infowindow.open(map, marker);
+	          $("#infoPueblo").html("<object style='width:100%;height:100%' data='"+urls[i]+"'/>");
 	        }
 	      })(marker, i));
 	    }
